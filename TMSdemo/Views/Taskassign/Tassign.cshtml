@@ -1,0 +1,533 @@
+﻿@model IEnumerable<TMSdemo.Models.Task>
+@{
+    ViewBag.Title = "Taskassign";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="fas fa-user-tag"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">ASSIGN TASKS</span>
+        <span class="info-box-text">Deliver the pending tasks..&nbsp;<i class="far fa-thumbs-up"></i></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3 mb-3">
+
+
+        <div class="input-group input-group" style="width: 300px;">
+            <select class="form-control bg-gray border-0" id="filterdrop1" name="clientId">
+                <option value="" disabled selected>--select--</option>
+                <option value="status">status</option>
+                <option value="client">client</option>
+                <option value="project">project</option>
+                <option value="module">module</option>
+                <option value="employee">employee</option>
+
+
+            </select>
+        </div>
+    </div>
+    <div class="col-3 mb-3">
+
+
+        <div class="input-group input-group" style="width: 300px;">
+            <select class="form-control bg-gray border-0" id="filterdrop2" name="clientId">
+                <option value="" disabled selected>--select--</option>
+
+
+            </select>
+        </div>
+    </div>
+</div>
+<!--New tasks table-->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>New tasks to assign</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.clientID)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+
+                            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.empname)</th>
+                            <th>@Html.DisplayNameFor(model => model.endDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.taskDetails)</th>
+                            <th>Assign To</th>
+                            <th>Target Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+                        @foreach (var item in Model)
+                        {
+                            if (item.status == "new" || item.status == "cwb" || item.status == "reopen" || item.status == "incomplete")
+                            {
+                                var uniqueId = "reservationtime_" + item.taskCode; // Using taskCode as part of the ID
+                        <tr>
+                            <td>
+                                @{
+                                    string encodedRouteValue = Url.Encode(item.taskCode);
+                                    string url = Url.Action("Home", "Tasktrack", new { id = encodedRouteValue });
+                                }
+                                <a href="@url">@item.taskCode</a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.clientID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+
+                            <td><span class="badge badge-primary bg-indigo">@Html.DisplayFor(modelItem => item.Priority)</span></td>
+                            @if (item.status == "new")
+                            {
+                                <td><span class="badge badge-primary">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "cwb")
+                            {
+                                string temp = "cwb" + item.count;
+                                <td><span class="badge badge-danger bg-maroon">@temp</span></td>
+                            }
+                            else if (item.status == "reopen")
+                            {
+                                string temp = "reopen" + item.count;
+                                <td><span class="badge badge-danger">@temp</span></td>
+                            }
+
+                            <td><span>@Html.DisplayFor(modelItem => item.empname)</span></td>
+
+                            <td>@Html.DisplayFor(modelItem => item.endDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.taskDetails)</td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => item.taskCode, ViewBag.employees as List<SelectListItem>, "-- select --", new { @class = "form-control-sm bg-gray empdrp", @data_empid = item.taskCode }) <!-- Use data_empid attribute -->
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control-sm float-right border-0 bg-gray reservationtime" data-empid="@item.taskCode">
+                                    </div>
+                                </div>
+                                <!-- /.form group -->
+                            </td>
+                            <td>
+                                <button class="btn btn-block bg-danger btn-sm btntaskassign" data-empid="@item.taskCode">Assign</button>
+                            </td>
+                        </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+<!--SEND for testing tasks table-->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>Send for Testing</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.clientID)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+
+                            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.empname)</th>
+                            <th>@Html.DisplayNameFor(model => model.endDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.taskDetails)</th>
+                            <th>Assign To</th>
+                            <th>Target Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+                        @foreach (var item in Model)
+                        {
+                            if (item.status == "completed")
+                            {
+                                var uniqueId = "reservationtime_" + item.taskCode; // Using taskCode as part of the ID
+                        <tr>
+                            <td>
+                                @{
+                                    string encodedRouteValue = Url.Encode(item.taskCode);
+                                    string url = Url.Action("Home", "Tasktrack", new { id = encodedRouteValue });
+                                }
+                                <a href="@url">@item.taskCode</a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.clientID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+
+                            <td><span class="badge badge-primary bg-indigo">@Html.DisplayFor(modelItem => item.Priority)</span></td>
+
+                            <td><span class="badge badge-warning bg-teal">@Html.DisplayFor(modelItem => item.status)</span></td>
+
+
+                            <td><span>@Html.DisplayFor(modelItem => item.empname)</span></td>
+
+                            <td>@Html.DisplayFor(modelItem => item.endDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.taskDetails)</td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => item.taskCode, ViewBag.employees as List<SelectListItem>, "-- select --", new { @class = "form-control-sm bg-gray empdrp", @data_empid = item.taskCode }) <!-- Use data_empid attribute -->
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control-sm float-right border-0 bg-gray reservationtime" data-empid="@item.taskCode">
+                                    </div>
+                                </div>
+                                <!-- /.form group -->
+                            </td>
+                            <td>
+                                <button class="btn btn-block bg-danger btn-sm btntasktest" data-empid="@item.taskCode">Send for Testing</button>
+                            </td>
+                        </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+<!--Tested ok tasks table-->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>Finished Tasks</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.clientID)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+
+                            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.empname)</th>
+                            <th>Deadline</th>
+                            <th>@Html.DisplayNameFor(model => model.taskDetails)</th>
+                            <th>Assign To</th>
+                            <th>Target Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+                        @foreach (var item in Model)
+                        {
+                            if (item.status == "finished")
+                            {
+                                var uniqueId = "reservationtime_" + item.taskCode; // Using taskCode as part of the ID
+                        <tr>
+                            <td>
+                                @{
+                                    string encodedRouteValue = Url.Encode(item.taskCode);
+                                    string url = Url.Action("Home", "Tasktrack", new { id = encodedRouteValue });
+                                }
+                                <a href="@url">@item.taskCode</a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.clientID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+
+                            <td><span class="badge badge-primary bg-indigo">@Html.DisplayFor(modelItem => item.Priority)</span></td>
+
+                            <td><span class="badge badge-warning bg-olive">@Html.DisplayFor(modelItem => item.status)</span></td>
+
+
+                            <td><span>@Html.DisplayFor(modelItem => item.empname)</span></td>
+
+                            <td>@Html.DisplayFor(modelItem => item.endDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.taskDetails)</td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => item.taskCode, ViewBag.employees as List<SelectListItem>, "-- select --", new { @class = "form-control-sm bg-gray empdrp", @data_empid = item.taskCode }) <!-- Use data_empid attribute -->
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control-sm float-right border-0 bg-gray reservationtime" data-empid="@item.taskCode">
+                                    </div>
+                                </div>
+                                <!-- /.form group -->
+                            </td>
+                            <td>
+                                <button class="btn btn-block bg-danger btn-sm btnsendtoclient" data-empid="@item.taskCode">Send to Client</button>
+                            </td>
+                        </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+<!--Closed tasks table-->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>Closed Tasks</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.clientID)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+
+                            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.empname)</th>
+                            <th>Deadline</th>
+                            <th>@Html.DisplayNameFor(model => model.taskDetails)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+                        @foreach (var item in Model)
+                        {
+                            if (item.status == "closed")
+                            {
+                                var uniqueId = "reservationtime_" + item.taskCode; // Using taskCode as part of the ID
+                        <tr>
+                            <td>
+                                @{
+                                    string encodedRouteValue = Url.Encode(item.taskCode);
+                                    string url = Url.Action("Home", "Tasktrack", new { id = encodedRouteValue });
+                                }
+                                <a href="@url">@item.taskCode</a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.clientID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+
+                            <td><span class="badge badge-primary bg-indigo">@Html.DisplayFor(modelItem => item.Priority)</span></td>
+
+                            <td><span class="badge badge-success">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            <td><span>@Html.DisplayFor(modelItem => item.empname)</span></td>
+
+                            <td>@Html.DisplayFor(modelItem => item.endDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.taskDetails)</td>
+                        </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+<!--Active tasks table-->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>Active Tasks</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.clientID)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+
+
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.reason)</th>
+                            <th>@Html.DisplayNameFor(model => model.empname)</th>
+
+                            <th>Deadline</th>
+                            <th>@Html.DisplayNameFor(model => model.taskDetails)</th>
+                            <th>Change time</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+                        @foreach (var item in Model)
+                        {
+
+                            var uniqueId = "reservationtime_" + item.taskCode; // Using taskCode as part of the ID
+                        <tr>
+                            <td>
+                                @{
+                                    string encodedRouteValue = Url.Encode(item.taskCode);
+                                    string url = Url.Action("Home", "Tasktrack", new { id = encodedRouteValue });
+                                }
+                                <a href="@url">@item.taskCode</a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.clientID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+
+
+                            @if (item.status == "eod")
+                            {
+                                <td><span class="badge badge-warning bg-gradient-pink">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "hold")
+                            {
+                                <td><span class="badge badge-warning bg-orange">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "cwb")
+                            {
+                                string temp = "cwb" + item.count;
+                                <td><span class="badge badge-danger bg-maroon">@temp</span></td>
+
+                            }
+                            else if (item.status == "reopen")
+                            {
+
+                                string temp = "reopen" + item.count;
+                                <td><span class="badge badge-danger">@temp</span></td>
+                            }
+                            else if (item.status == "pending")
+                            {
+                                <td><span class="badge badge-warning badge-warning ">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "closed")
+                            {
+                                <td><span class="badge badge-success">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "finished")
+                            {
+                                <td><span class="badge badge-warning bg-olive">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "running")
+                            {
+                                <td><span class="badge badge-warning bg-lightblue">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "completed")
+                            {
+                                <td><span class="badge badge-warning bg-teal">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "break")
+                            {
+                                <td><span class="badge badge-warning bg-gradient-lime">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "incomplete")
+                            {
+                                <td><span class="badge badge-warning bg-danger">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "incomplete")
+                            {
+                                <td><span class="badge badge-warning bg-orange">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "new")
+                            {
+                                <td><span class="badge badge-primary">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+
+                            <td>@Html.DisplayFor(modelItem => item.reason)</td>
+                            <td><span>@Html.DisplayFor(modelItem => item.empname)</span></td>
+                            <td>@Html.DisplayFor(modelItem => item.endDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.taskDetails)</td>
+                            @if (item.status == "pending" || item.status == "new" || item.status == "running" || item.status == "break"||item.status == "eod"|| item.status == "hold")
+                            {
+                                <td>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control-sm float-right border-0 bg-gray reservationtime" data-empid="@item.taskCode">
+                                        </div>
+                                    </div>
+                                    <!-- /.form group -->
+                                </td>
+                                <td>
+                                    <button class="btn btn-block bg-purple btn-sm btnchangetime" data-empid="@item.taskCode">Edit Alloted time</button>
+
+                                </td>
+                            }
+
+                        </tr>
+
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->

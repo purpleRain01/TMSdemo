@@ -1,0 +1,66 @@
+﻿@model TMSdemo.Models.Employee
+@{
+    ViewBag.Title = "Signup";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div class="login-dark">
+    @using (Html.BeginForm())
+    {
+        <h2 class="sr-only">Login Form</h2>
+        <div class="illustration">
+            <h4>Sign Up</h4>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.EmpID, new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.EmployeeId })
+        </div>
+
+        <div class="form-group">
+            @Html.EditorFor(model => model.EmpName, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", @id = "empName" , maxlength = "30" } })
+            <div id="namevalidation" class="text-danger" style="display: none;"></div>
+        </div>
+
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.Designation, ViewBag.Designation as List<SelectListItem>, "-- Select designation --", new { @class = "form-control", @id = "designation" })
+            <div id="designationvalidation" class="text-danger" style="display: none;"></div>
+        </div>
+
+        <div class="form-group">
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address", @id = "address", maxlength = "50" } })
+            <div id="addressvalidation" class="text-danger" style="display: none;"></div>
+        </div>
+
+        <div class="form-group">
+            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", placeholder = "Contact", @id = "contact", maxlength = "40" } })
+            <div id="contactvalidation" class="text-danger" style="display: none;"></div>
+        </div>
+
+        <div class="form-group">
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", placeholder = "Password", @id = "password",maxlength = "20" } })
+            <div id="passwordvalidation" class="text-danger" style="display: none;"></div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", placeholder = "Confirm password", @id = "passwordc", maxlength = "20" } })
+
+        </div>
+        
+        <div class="form-group">
+
+            <input type="submit" value="Sign Up" class="btn btn-primary btn-block" id="signup-button" />
+           
+
+        </div>
+        <a href="@Url.Action("Login", "Home")" class="forgot">Login</a>
+
+    }
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<script src="~/js/signup.js"></script>
+

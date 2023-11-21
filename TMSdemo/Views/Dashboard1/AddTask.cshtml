@@ -1,0 +1,151 @@
+﻿@model TMSdemo.Models.Task
+@{
+    ViewBag.Title = "AddTask";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="fas far fa-plus-square"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">ADD TASK MENU</span>
+        <span class="info-box-text">Add tasks here..&nbsp;<i class="far fa-tasks"></i></span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-black elevation-2">
+            <div class="card-header bg-black">
+                <h3 class="card-title">Task Form</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body bg-gradient-dark">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label for="clientSelect" class="text-lightblue">Client Name</label>
+                                <select class="form-control bg-gray border-0" id="clientSelect" name="clientId">
+                                    <option value="" disabled selected>Select a Client</option>
+                                    @if (ViewBag.clients != null && ViewBag.clients.Count > 0)
+                                    {
+                                        foreach (var client in ViewBag.clients)
+                                        {
+                                            <option value="@client.Value">@client.Text</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">No Clients available</option>
+                                    }
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="text-lightblue">Project Name</label>
+                                <select class="form-control bg-gray border-0" disabled id="projectSelect">
+                                    <option value="" disabled selected>Select a Project</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label class="text-lightblue">Module Name</label>
+                                <select class="form-control bg-gray border-0" disabled id="moduleSelect">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="text-lightblue">Form Name</label>
+                                <select class="form-control bg-gray border-0" disabled id="formSelect">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- input states -->
+                    <div class="form-group">
+                        <label class="text-lightblue" for="inputWarning">
+
+                            Task Code
+                        </label>
+                        <input type="text" class="form-control bg-dark elevation-1 border-info" id="inputWarning" placeholder="generating..." disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-lightblue" for="inputSuccess">
+                            Task description
+                        </label>
+                        <textarea class="form-control bg-gray border-0 inputsuccess" id="inputSuccess" placeholder="Enter Task description here.."></textarea>
+                        <div id="charCount1" class="text-white-50">250 characters remaining</div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="text-lightblue">Completion Date</label>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-gray border-0"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" id="datemask" class="form-control bg-gray border-0" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="text-lightblue">Priority level</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radio1" value="high">
+                                    <label class="form-check-label text-danger"><strong>HIGH</strong></label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radio1" value="medium">
+                                    <label class="form-check-label text-warning"><strong>MEDIUM</strong></label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radio1" value="low">
+                                    <label class="form-check-label text-blue"><strong>LOW</strong></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="alert alert-default-warning bg-black" id="alertdiv" style="display:none;">
+                        <span class="text-danger" id="alertlabel">test</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span class="text-light">x</span>
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        @*@Html.ActionLink("SUBMIT TASK", "runningTask", new { taskcode = 0, actionType = "break" }, new { @class = "btn btn-block btn-outline-primary btn-flat elevation-3", id = "submit" })*@
+                        <input type="submit" value="Submit" class="btn btn-block btn-secondary bg-indigo btn-flat elevation-3" id="submit" />
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

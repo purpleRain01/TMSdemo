@@ -1,0 +1,300 @@
+﻿@model IEnumerable<TMSdemo.Models.Performance>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="fas fa-tachometer-alt"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">PERFORMANCE MENU</span>
+        <span class="info-box-text">
+            Your are Rocking..&nbsp;
+
+
+            @{
+                HttpCookie cookie4 = Request.Cookies["Id"];
+                int startcount = 0;
+                foreach (var item in Model)
+                {
+                    if (item.empid.ToString() == cookie4.Value)
+                    {
+                        int denominator = item.ConTimecount + item.NConTimecount;
+                        double temp = (double)item.ConTimecount / denominator * 100;
+                        if (temp >= 90) { startcount = 5; }
+                        else if (temp >= 80 && temp < 90) { startcount = 4; }
+                        else if (temp >= 70 && temp < 80) { startcount = 3; }
+                        else if (temp >= 60 && temp < 70) { startcount = 2; }
+                        else if (temp >= 50 && temp < 60) { startcount = 1; } // Changed this line
+                        else { startcount = 0; }
+                    }
+                }
+
+                for (int i = 0; i < startcount; i++)
+                {
+                    <i class="far fa-star" style="color:yellow !important;"></i>
+                }
+
+            }
+        </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-black">
+                <h5 class="card-title mr-4">Performance Table</h5>
+
+
+                <div class="card-tools">
+
+                    <select class="form-control bg-gray" id="filterdrop" name="clientId">
+                        <option value="" disabled selected>--select--</option>
+                        <option value="1">previous month</option>
+                        <option value="2">previous year</option>
+                        <option value="3">date range</option>
+                    </select>
+                   
+
+                </div>
+                <div class="card-tools float-left" id="divdate" style="display:none;">
+                    <div class="input-group">
+                        <div class="input-group-prepend bg-black">
+
+                            <button class="btn-danger" id="btngo">GO</button>
+
+                        </div>
+                        <input type="text" class="form-control-sm float-right bg-gray" id="datemask" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                        <input type="text" class="form-control-sm float-right bg-gray" id="datemask1" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body bg-gradient-gray-dark">
+                <div class="row">
+
+                    <!-- /.col -->
+                    @{
+                        HttpCookie cookie2 = Request.Cookies["Id"];
+                        foreach (var item in Model)
+                        {
+                            if (item.empid.ToString() == @cookie2.Value)
+                            {
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-indigo elevation-4">
+                                        <div class="inner">
+                                            <h3>@Convert.ToInt32(@item.ConTimecount + @item.NConTimecount)</h3>
+
+                                            <p>Tasks Completed</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-person-add"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-lightblue elevation-4">
+                                        <div class="inner">
+                                            @{
+                                                int denominator = @item.ConTimecount + @item.NConTimecount;
+                                                double temp = (double)@item.ConTimecount / denominator * 100;
+                                            }
+
+                                            <h3>@temp.ToString("N2")<sup style="font-size: 20px">%</sup></h3>
+                                            <p>Performance(T)</p>
+                                        </div>
+
+                                        <div class="icon">
+                                            <i class="ion ion-stats-bars"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-cyan  elevation-4">
+                                        <div class="inner">
+                                            <h3>@item.TWorktime</h3>
+
+                                            <p>Total Work Time</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-person-add"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-gradient-olive  elevation-4">
+                                        <div class="inner">
+                                            <h3>@item.TBreaktime</h3>
+
+                                            <p>Total Break Taken</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-pie-graph"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+                                <!-- ./col -->
+
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-gradient-lightblue  elevation-4">
+                                        <div class="inner">
+                                            <h3>@item.ConTimecount</h3>
+
+                                            <p>Tasks on Time</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-pie-graph"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-gradient-olive elevation-4">
+                                        <div class="inner">
+                                            <h3>@item.NConTimecount</h3>
+
+                                            <p>Tasks off Time</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-pie-graph"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-indigo elevation-4">
+                                        <div class="inner">
+                                            <h3>@item.TAlloted</h3>
+
+                                            <p>Total Alloted Time</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-pie-graph"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-gradient-olive  elevation-4">
+                                        <div class="inner">
+                                            <h3>@item.pi<sup style="font-size: 20px">%</sup></h3>
+
+                                            <p>Performance Index(H)</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-pie-graph"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-o-up"></i></a>
+                                    </div>
+                                </div>
+                            }
+
+
+                        }
+                    }
+
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- ./card-body -->
+
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<!-----for admin users to show other employee performance-->
+
+@{
+
+    HttpCookie admincookie = Request.Cookies["Admin"];
+    if (admincookie != null)
+    {
+        if (Convert.ToBoolean(admincookie.Value))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-black">
+                            <h5 class="card-title">Empoyee Performance</h5>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body bg-gradient-gray-dark">
+                            <div class="row">
+
+                                @foreach (var item in Model)
+                                {
+                                    TimeSpan breakTime = TimeSpan.Parse(item.TBreaktime);
+                                    TimeSpan workTime = TimeSpan.Parse(item.TWorktime);
+                                    TimeSpan totalWorkedTime = breakTime + workTime;
+                                    <div class="col-12 col-sm-6 col-md-3 mr-5">
+
+
+                                        <div class="card bg-black elevation-5" style="width: 18rem;">
+                                            <div class="card-header">
+                                                @item.empname
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item bg-gradient-gray">Total Task<span class="float-right">@Convert.ToInt32(@item.ConTimecount + @item.NConTimecount)</span></li>
+                                                <li class="list-group-item bg-gradient-gray">On time completed<span class="float-right">@item.ConTimecount</span></li>
+                                                <li class="list-group-item bg-gradient-gray">Total time alloted<span class="float-right">@item.TAlloted</span></li>
+                                                <li class="list-group-item bg-gradient-gray">Total worked<span class="float-right">@totalWorkedTime.ToString(@"hh\:mm\:ss")</span></li>
+                                                <li class="list-group-item bg-gradient-gray">Performance Index(H)<span class="float-right">@item.pi<sup style="font-size: 10px">%</sup></span></li>
+
+                                            </ul>
+                                        </div>
+
+
+
+                                        <!--<div class="info-box elevation-5 bg-gradient-indigo">
+                                            <span class="info-box-icon bg-gray"><i class="fas fa-user"></i></span>
+
+                                            <div class="info-box-content">
+                                                <span class="info-box-number">@item.empname</span>
+                                                <span class="info-box-number"> total tasks:&nbsp;@Convert.ToInt32(@item.ConTimecount + @item.NConTimecount)</span>
+                                                <span class="info-box-number"> on time:&nbsp;@item.ConTimecount</span>
+
+                                            </div>-->
+                                        <!-- /.info-box-content -->
+                                        <!--</div>-->
+                                        <!-- /.info-box -->
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}

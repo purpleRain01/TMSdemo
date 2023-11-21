@@ -1,0 +1,108 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/FrontEnd/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arvo&display=swap" rel="stylesheet">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/FrontEnd/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/summernote/summernote-bs4.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <title>ERROR</title>
+    <style>
+
+
+        /*======================
+            404 page
+        =======================*/
+
+
+        .page_404 {
+            padding: 40px 0;
+            background: #fff;
+            font-family: 'Arvo', serif;
+        }
+
+            .page_404 img {
+                width: 100%;
+            }
+
+        .four_zero_four_bg {
+            background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+            height: 400px;
+            background-position: center;
+        }
+
+
+            .four_zero_four_bg h1 {
+                font-size: 80px;
+            }
+
+            .four_zero_four_bg h3 {
+                font-size: 80px;
+            }
+
+        .link_404 {
+            color: #fff !important;
+            padding: 10px 20px;
+            background: #39ac31;
+            margin: 20px 0;
+            display: inline-block;
+        }
+
+        .contant_box_404 {
+            margin-top: -50px;
+        }
+    </style>
+</head>
+<body>
+    <section class="page_404">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-12 col-sm-offset-1  text-center">
+                        <div class="four_zero_four_bg">
+                            <h1 class="text-center">404</h1>
+
+
+                        </div>
+
+                        <div class="contant_box_404">
+                            <h3 class="h2">
+                                Something Went Wrong Report the Issue please...
+                            </h3>
+
+                            <p>The page you are looking for not avaible!</p>
+
+                            <a href="@Url.Action("Logout", "Dashboard")" class="link_404">Logout</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

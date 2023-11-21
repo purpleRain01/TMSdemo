@@ -1,0 +1,358 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TMS | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/FrontEnd/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/FrontEnd/plugins/summernote/summernote-bs4.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <style>
+        .user-panel .image img {
+            width: 50px; /* Adjust the width as needed */
+            height: 50px; /* Adjust the height as needed */
+        }
+
+        .card {
+            border-bottom-color: rebeccapurple;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-dark" style="background-color: #000000;">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="@Url.Action("Index", "Dashboard")" class="nav-link text-primary">HOME</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="@Url.Action("Logout", "Dashboard")" class="nav-link text-warning">LOGOUT</a>
+                </li>
+            </ul>
+
+            <!-- SEARCH FORM -->
+            <!-- Right navbar links -->
+
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar elevation-4 sidebar-dark-gray-dark">
+            <!-- Brand Logo -->
+            <a href="@Url.Action("Index", "Dashboard")" class="brand-link navbar-brand bg-black">
+                <img src="~/FrontEnd/dist/img/dashboard_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light"><b>TMS&nbsp;&nbsp;v1.0</b></span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar nav-legacy nav-flat bg-gradient">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-1 elevation-1 pt-3 pb-1 mb-1 d-flex bg-black">
+                    <div class="image">
+                        <img src="~/FrontEnd/dist/img/User.png" class="img-circle elevation-2" alt="User Image" width="100" height="100">
+                    </div>
+                    <div class="info">
+                        @{
+                            HttpCookie cookie1 = Request.Cookies["Name"];
+                            HttpCookie cookie2 = Request.Cookies["Id"];
+                            HttpCookie cookie3 = Request.Cookies["Dsgn"];
+                            <a href="#" class="d-block text-white"><strong>@cookie1.Value</strong>(@cookie3.Value)</a>
+                            <a href="#" class="d-block text-white"><i>@cookie2.Value</i></a>
+
+                        }
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-1">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#" class="nav-link bg-indigo elevation-2">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Menu
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Dashboard")" class="nav-link" id="sdlink1" onclick="handleNavLinkClick('sdlink1')">
+                                        <i class="nav-icon fas fa-edit"></i>
+                                        <p>YOUR TASKS</p>
+                                    </a>
+                                </li>
+                                <!----add task for manu-->
+                                @{
+                                    HttpCookie cookieadmin1 = Request.Cookies["Admin1"];
+                                    HttpCookie cookieadmin = Request.Cookies["Admin"];
+                                    if (cookieadmin != null)
+                                    {
+                                        if (Convert.ToBoolean(cookieadmin.Value))
+                                        {
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("AddTask", "Dashboard1")" class="nav-link" id="sdlink2" onclick="handleNavLinkClick('sdlink7')">
+                                                    <i class="nav-icon far fa-plus-square"></i>
+                                                    <p>ADD A TASK</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("ReportIndex", "Reports")" class="nav-link" id="sdlink2" onclick="handleNavLinkClick('sdlink8')">
+                                                    <i class="nav-icon far fa-file-archive"></i>
+                                                    <p>REPORTS</p>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                    if (cookieadmin1 != null)
+                                    {
+                                        if (Convert.ToBoolean(cookieadmin1.Value))
+                                        {
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("AddTask", "Dashboard1")" class="nav-link" id="sdlink2" onclick="handleNavLinkClick('sdlink7')">
+                                                    <i class="nav-icon far fa-file-archive"></i>
+                                                    <p>ADD A TASK</p>
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item has-treeview menu-open">
+                                                <a href="#" class="nav-link">
+                                                    <i class="nav-icon fas fa-clipboard-check"></i>
+                                                    <p>
+                                                        CLIENT MASTER
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview">
+                                                    <li class="nav-item">
+                                                        <a href="@Url.Action("AddClient", "Client")" class="nav-link" id="sdlink14" onclick="handleNavLinkClick('sdlink14')">
+                                                            <i class="nav-icon far fa-r-project"></i>
+                                                            <p>ADD CLIENT</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="@Url.Action("AddProject", "Client")" class="nav-link" id="sdlink5" onclick="handleNavLinkClick('sdlink15')">
+                                                            <i class="nav-icon far fa-r-project"></i>
+                                                            <p>ADD PROJECT</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="@Url.Action("AddForms", "Client")" class="nav-link" id="sdlink16" onclick="handleNavLinkClick('sdlink16')">
+                                                            <i class="nav-icon far fa-r-project"></i>
+                                                            <p>Forms</p>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+
+                                        }
+                                    }
+                                }
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Dashboard1")" class="nav-link" id="sdlink2" onclick="handleNavLinkClick('sdlink2')">
+                                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                                        <p>PERFORMANCE</p>
+                                    </a>
+                                </li>
+
+                                @{
+                                    HttpCookie cookieadminrole = Request.Cookies["Admin"];
+
+                                    if (cookieadminrole != null)
+                                    {
+                                        if (Convert.ToBoolean(cookieadminrole.Value))
+                                        {
+                                            
+
+                                            <li class="nav-item has-treeview menu-open">
+                                                <a href="#" class="nav-link">
+                                                    <i class="nav-icon fas fa-clipboard-check"></i>
+                                                    <p>
+                                                        CLIENT MASTER
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview">
+                                                    <li class="nav-item">
+                                                        <a href="@Url.Action("AddClient", "Client")" class="nav-link" id="sdlink14" onclick="handleNavLinkClick('sdlink14')">
+                                                            <i class="nav-icon far fa-r-project"></i>
+                                                            <p>ADD CLIENT</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="@Url.Action("AddProject", "Client")" class="nav-link" id="sdlink5" onclick="handleNavLinkClick('sdlink15')">
+                                                            <i class="nav-icon far fa-r-project"></i>
+                                                            <p>ADD PROJECT</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="@Url.Action("AddForms", "Client")" class="nav-link" id="sdlink16" onclick="handleNavLinkClick('sdlink16')">
+                                                            <i class="nav-icon far fa-r-project"></i>
+                                                            <p>Forms</p>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "Rolemaster")" class="nav-link" id="sdlink2" onclick="handleNavLinkClick('sdlink6')">
+                                                    <i class="nav-icon far fas fa-users"></i>
+                                                    <p>CHANGE ROLES</p>
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Tassign", "Taskassign")" class="nav-link" id="sdlink2" onclick="handleNavLinkClick('sdlink5')">
+                                                    <i class="nav-icon far fas fa-user-tag"></i>
+                                                    <p>ASSIGN TASKS</p>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                }
+
+
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper bg-gray-dark">
+            <!-- Content Header (Page header) -->
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+
+                    @RenderBody()
+
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer bg-gradient-dark">
+            <strong>Copyright &copy; 2023 <a href="http://adminlte.io">Sun Info</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
+
+
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="~/FrontEnd/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/FrontEnd/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI -->
+    <link href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/FrontEnd/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/FrontEnd/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/FrontEnd/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/FrontEnd/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/FrontEnd/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/FrontEnd/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/FrontEnd/plugins/moment/moment.min.js"></script>
+    <script src="~/FrontEnd/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/FrontEnd/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/FrontEnd/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/FrontEnd/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/FrontEnd/dist/js/adminlte.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/FrontEnd/dist/js/pages/dashboard.js"></script>
+    <!-- AdminLTE for demo purposes -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="~/FrontEnd/dist/js/demo.js"></script>
+    <script>
+        $(function () {
+
+            $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+            $('#datemask1').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+
+
+            // Select input fields using the class
+            const dateInputs = document.querySelectorAll(".reservationtime");
+
+            dateInputs.forEach(function (input) {
+                $(input).daterangepicker({
+                    timePicker: true,
+                    timePickerIncrement: 30,
+                    locale: {
+                        format: 'MM/DD/YYYY hh:mm A'
+                    }
+                });
+            });
+
+
+
+
+        })
+    </script>
+
+    <script src="~/js/datetime.js"></script>
+    <script src="~/js/addtask.js"></script>
+    <script src="~/js/Prjmaster.js"></script>
+
+    <script src="~/js/Dashboard.js"></script>
+    <script src="~/js/Rolechange.js" s></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

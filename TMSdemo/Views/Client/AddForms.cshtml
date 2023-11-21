@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "AddForms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="fas far fa-plus-square"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">FORMS</span>
+        <span class="info-box-text">Add New forms here..&nbsp;<i class="far fa-tasks"></i></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-black elevation-2">
+            <div class="card-header bg-black">
+                <h3 class="card-title">Add Form</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body bg-gradient-dark">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label for="clientSelect" class="text-lightblue">Client Name</label>
+                                <select class="form-control bg-gray border-0" id="clientSelect" name="clientId">
+                                    <option value="" disabled selected>Select a Client</option>
+
+                                    @if (ViewBag.clients != null && ViewBag.clients.Count > 0)
+                                    {
+                                        foreach (var client in ViewBag.clients)
+                                        {
+                                            <option value="@client.Value">@client.Text</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">No Clients available</option>
+                                    }
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="clientSelect" class="text-lightblue">Project Name</label>
+                                <select class="form-control bg-gray border-0" id="projectSelect" name="prjid">
+                                    <option value="" disabled selected>Select a Project</option>
+
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label for="clientSelect" class="text-lightblue">Module Name</label>
+                                <select class="form-control bg-gray border-0" id="moduleSelect" name="modid">
+                                    <option value="" disabled selected>Select a module</option>
+
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label for="formname" class="text-lightblue">Form Name</label>
+                                <input type="text" class="form-control bg-gray border-0" id="formname1"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                    <div class="alert alert-default-warning bg-black" id="alertdivfrm" style="display:none;">
+                        <span class="text-danger" id="alertlabelfrm">test</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span class="text-light">x</span>
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        <input type="submit" value="Add Form" class="btn btn-block btn-secondary bg-indigo btn-flat elevation-3" id="submitform" />
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

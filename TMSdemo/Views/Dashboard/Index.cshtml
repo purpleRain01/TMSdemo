@@ -1,0 +1,455 @@
+﻿@model IEnumerable<TMSdemo.Models.Task>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="fas fa-edit"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">TASKS MENU</span>
+        <span class="info-box-text">Good Luck!&nbsp;<i class="far fa-thumbs-up"></i></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3 mb-3">
+
+
+        <div class="input-group input-group" style="width: 300px;">
+             
+            <select class="form-control bg-gray border-0" id="filterdrop1" name="clientId">
+                <option value="" disabled selected>--select--</option>
+                <option value="status">status</option>
+                <option value="client">client</option>
+                <option value="project">project</option>
+                <option value="module">module</option>
+
+
+            </select>
+        </div>
+    </div>
+    <div class="col-2 mb-3">
+
+
+        <div class="input-group input-group" style="width: 300px;">
+            <select class="form-control bg-gray border-0" id="filterdrop2" name="clientId">
+                <option value="" disabled selected>--select--</option>
+
+
+            </select>
+        </div>
+    </div>
+</div>
+<!--pending tasks table-->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>Assigned Tasks for you</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.clientID)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.reason)</th>
+                            <th>@Html.DisplayNameFor(model => model.allotedTime)</th>
+                            <th>@Html.DisplayNameFor(model => model.taskDetails)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+                        @{
+                            int tempv = 0;
+                            foreach (var item in Model)
+                            {
+                                if (item.status == "running" || item.status == "break")
+                                {
+                                    tempv = 1;
+                                }
+                            }
+
+                            foreach (var item in Model)
+                            {
+
+                                if (item.status == "pending" || item.status == "hold" || item.status == "eod")
+                                {
+                                                <tr>
+
+                                                    <td>
+                                                        @{
+                                                            string encodedRouteValue = item.taskCode;
+                                                            string url = Url.Action("Home", "Tasktrack", new { id = encodedRouteValue });
+                                                        }
+                                                        <a href="@url">@item.taskCode</a>
+                                                    </td>
+
+
+                                                    <td>@Html.DisplayFor(modelItem => item.clientID)</td>
+
+
+                                                    <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+                                                    <td><span class="badge badge-primary">@Html.DisplayFor(modelItem => item.Priority)</span></td>
+
+                                                    @if (item.status == "pending")
+                                                    {
+                                                        <td><span class="badge badge-warning">@Html.DisplayFor(modelItem => item.status)</span></td>
+                                                    }
+                                                    else if (item.status == "eod")
+                                                    {
+                                                        <td><span class="badge badge-warning bg-gradient-pink">@Html.DisplayFor(modelItem => item.status)</span></td>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><span class="badge badge-warning bg-orange">@Html.DisplayFor(modelItem => item.status)</span></td>
+                                                    }
+                                                    <td>@Html.DisplayFor(modelItem => item.reason)</td>
+
+                                                    <td>@Html.DisplayFor(modelItem => item.allotedTime)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.taskDetails)</td>
+                                                    @if (tempv == 0)
+                                                    {
+                                                        <td>
+                                                            @Html.ActionLink("Start", "Task", new { taskcode = item.taskCode, actionType = item.status }, new { @class = "btn btn-block bg-purple btn-sm" })
+                                                        </td>
+                                                        if (item.status == "hold")
+                                                        {
+                                                            <td>
+                                                                @Html.ActionLink("Incomplete", "taskIncomplete", new { taskcode = item.taskCode }, new { @class = "btn btn-block bg-danger btn-sm" })
+                                                            </td>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            @Html.ActionLink("Start", "Task", new { taskcode = item.taskCode, actionType = item.status }, new { @class = "btn btn-block bg-purple btn-sm disabled" })
+                                                        </td>
+                                                        if (item.status == "hold")
+                                                        {
+                                                            <td>
+                                                                @Html.ActionLink("Incomplete", "taskIncomplete", new { taskcode = item.taskCode }, new { @class = "btn btn-block bg-danger btn-sm disabled" })
+                                                            </td>
+                                                        }
+                                                    }
+
+                                                </tr>
+                                }
+
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
+
+@{
+    if (TempData["msg"] != null)
+    {
+        if (TempData["msg"].ToString() == "break")
+        {
+            <div class="alert bg-gradient-dark">
+                <strong class="text-warning">Info :</strong><i class="text-white-50">&nbsp; You are in the middle of a break...</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span>x</span>
+                </button>
+            </div>
+        }
+    }
+}
+
+
+
+
+@*//later we can create partial view this table*@
+
+<!--running tasks--->
+
+<div class="row">
+    <div class="col-md-4">
+        @if (TempData["msg"] != null)
+        {
+            <div class="card card-widget widget-user-2 elevation-3">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-olive">
+                    <button type="button" id="refreshButton" class="btn btn-tool" data-card-widget="card-refresh"><i class="fas fa-sync-alt"></i></button>
+                    <!-- /.widget-user-image -->
+                    @*@{
+                            HttpCookie cookie1 = Request.Cookies["Name"];
+                            <h3 class="widget-user-username">@cookie1.Value</h3>
+                        }*@
+
+                    <h5 class="widget-user-desc">Running Task</h5>
+                </div>
+                @{
+                    HttpCookie cookieTW = Request.Cookies["totalwork"];
+                    HttpCookie cookieTB = Request.Cookies["totalbreak"];
+                }
+
+
+                @foreach (var item in Model)
+                {
+                    if (item.status == "running" || item.status == "break")
+                    {
+                        <div class="card-footer p-0 bg-gradient-gray-dark">
+
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link text-white-50" id="runningtasklink">
+                                        Task Code <span class="float-right badge bg-primary">@Html.DisplayFor(modelItem => item.taskCode)</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link text-white-50">
+                                        Assigned Date <span class="float-right badge bg-info">@Html.DisplayFor(modelItem => item.dateAssigned)</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link text-white-50">
+                                        Time Alloted <span class="float-right badge bg-info">@Html.DisplayFor(modelItem => item.allotedTime)</span>
+                                    </a>
+                                </li>
+                                @if (cookieTW != null)
+                                {
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-white-50">
+                                            Total Work time <span class="float-right badge badge-success">@cookieTW.Value</span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (cookieTB != null)
+                                {
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-white-50">
+                                            Break taken <span class="float-right badge bg-danger">@cookieTB.Value</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                }
+            </div>
+        }
+        <!-- Widget: user widget style 2 -->
+        <!-- /.widget-user -->
+    </div>
+
+
+
+
+    @if (TempData["msg"] != null)
+    {
+        <div class="col-md-2">
+
+            @if (TempData["msg"].ToString() == "running")
+            {
+                <div class="card card-widget widget-user-2">
+                    @Html.ActionLink("Take a break", "runningTask", new { taskcode = "0", actionType = "break" }, new { @class = "btn btn-block bg-cyan btn-flat elevation-3" })
+                </div>
+                <div class="card card-widget widget-user-2">
+                    @Html.ActionLink("Hold", "HoldTask", new
+               {
+
+                   action = "hold",
+                   currState = "running"
+               },
+         new { @class = "btn btn-block bg-olive btn-flat elevation-3 btnholdreason" })
+
+                </div>
+                <div class="card card-widget widget-user-2">
+                    @Html.ActionLink("End of the Day", "EOD", new { currState = "running", action = "eod" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3" })
+                </div>
+            }
+            @if (TempData["msg"].ToString() == "break")
+            {
+                <div class="card card-widget widget-user-2">
+                    @Html.ActionLink("Start Task", "runningTask", new { taskcode = "0", actionType = "start" }, new { @class = "btn btn-block bg-cyan btn-flat elevation-3" })
+                </div>
+                <div class="card card-widget widget-user-2">
+                    @Html.ActionLink("Hold", "HoldTask", new
+               {
+                   action = "hold",
+                   currState = "break",
+
+
+               }, new { @class = "btn btn-block bg-olive btn-flat elevation-3 btnholdreason" })
+                </div>
+                <div class="card card-widget widget-user-2">
+                    @Html.ActionLink("End of the Day", "EOD", new { currState = "break", action = "eod" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3" })
+                </div>
+            }
+
+            @{
+                HttpCookie tester = Request.Cookies["tester"];
+                HttpCookie client = Request.Cookies["Admin1"];
+                if (tester != null)
+                {
+                    <div class="card card-widget widget-user-2">
+                        @Html.ActionLink("Completed with BUG", "runningTask", new { taskcode = "0", actionType = "cwb" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3 asksubmit btnholdreason" })
+                    </div>
+                    <div class="card card-widget widget-user-2">
+                        @Html.ActionLink("Submit Task", "runningTask", new { taskcode = "0", actionType = "finished" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3 asksubmit" })
+                    </div>
+                }
+                else if (client != null)
+                {
+                    if (Convert.ToBoolean(client.Value))
+                    {
+                        <div class="card card-widget widget-user-2">
+                            @Html.ActionLink("Report Bug", "runningTask", new { taskcode = "0", actionType = "reopen" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3 asksubmit btnholdreason" })
+                        </div>
+                        <div class="card card-widget widget-user-2">
+                            @Html.ActionLink("Close Task", "runningTask", new { taskcode = "0", actionType = "closed" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3 asksubmit" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card card-widget widget-user-2">
+                            @Html.ActionLink("Submit Task", "runningTask", new { taskcode = "0", actionType = "submit" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3 asksubmit" })
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="card card-widget widget-user-2">
+                        @Html.ActionLink("Submit Task", "runningTask", new { taskcode = "0", actionType = "submit" }, new { @class = "btn btn-block bg-teal btn-flat elevation-3 asksubmit" })
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-md-4">
+            <textarea placeholder="Please enter reason here while holding task*" class="form-control bg-gray border-0 elevation-3 text-white-50" rows="4" id="reasonforhold"></textarea>
+            <div id="charCount" class="text-white-50">150 characters remaining</div>
+        </div>
+    }
+
+    @*<script>
+            var reason = $("#reasonforhold").val()
+        </script>*@
+
+
+
+
+</div>
+@if (TempData["msg"] == null)
+{
+
+    <div class="alert bg-gradient-dark">
+        <strong class="text-warning">Info :</strong><i class="text-white-50">&nbsp; Currenlty no tasks running for you.please chose a pending/hold task to start</i>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span>x</span>
+        </button>
+    </div>
+
+}
+<!--Completed tasks-->
+<div class="row">
+    <div class="col-12">
+        <div class="card elevation-3">
+            <div class="card-header bg-black">
+                <h3 class="card-title"><strong>Completed Tasks</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray p-0" style="height: 300px;">
+                <table class="table table-hover text-nowrap bg-gradient-gray-dark">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.clientID)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.allotedTime)</th>
+                            <th>Start time</th>
+                            <th>End time</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+
+                        @foreach (var item in Model)
+                        {
+
+                            if (item.tableid == "trn")
+                            {
+                                if (item.status == "completed" || item.status == "incomplete" || item.status == "cwb" || item.status == "reopen" || item.status == "finished" || item.status == "closed")
+                                {
+                                    <tr>
+                                        <td>
+                                            @{
+                                                string encodedRouteValue = item.taskCode;
+                                                string url = Url.Action("Home", "Tasktrack", new { id = encodedRouteValue });
+                                            }
+                                            <a href="@url">@item.taskCode</a>
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.clientID)</td>
+
+                                        <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Priority)</td>
+                                        <td>
+                                            @if (item.status == "incomplete")
+                                            {
+                                                <span class="badge badge-danger">incomplete</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-success bg-teal">completed</span>
+                                            }
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.allotedTime)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.starttime)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.endtime)</td>
+
+
+                                    </tr>
+
+                                }
+                            }
+
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

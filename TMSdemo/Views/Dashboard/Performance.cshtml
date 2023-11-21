@@ -1,0 +1,42 @@
+﻿@model TMSdemo.Models.Employee
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="info-box mb-3 bg-success">
+    <span class="info-box-icon"><i class="fas fa-tachometer-alt"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">PERFORMANCE MENU</span>
+        <span class="info-box-text">You are the Rockstar..&nbsp;<i class="far fa-star"></i></span>
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+
+
+            @{
+                HttpCookie cookie = Request.Cookies["Admin"];
+                if (cookie != null && !string.IsNullOrEmpty(cookie.Value))
+                {
+                    
+                    if (@cookie.Value.ToString() =="true")
+                    {
+                        @Html.Partial("_Infoboxes")
+                    }
+                }
+                else
+                {
+                    <script>
+                        alert("Cookie not found please login");
+                    </script>
+                }
+            }
+
+        </div>
+    </div>
+</section>
+
+

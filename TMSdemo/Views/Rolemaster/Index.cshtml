@@ -1,0 +1,78 @@
+﻿@model IEnumerable<TMSdemo.Models.Employee>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="fas fa-users"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">ROLE MASTER</span>
+        <span class="info-box-text">Assign new Roles..&nbsp;<i class="far fa-thumbs-up"></i></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>Assigned Tasks for you</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.EmpID)</th>
+                            <th>@Html.DisplayNameFor(model => model.EmpName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Designation)</th>
+                            <th>@Html.DisplayNameFor(model => model.Status)</th>
+                            <th>@Html.DisplayNameFor(model => model.Access)</th>
+                            <th>Change access</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+                        @{
+                            HttpCookie cookie4 = Request.Cookies["Id"];
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    @if (item.EmpID != cookie4.Value)
+                                    {
+                                        <td>@Html.DisplayFor(modelItem => item.EmpID)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.EmpName)</td>
+                                        <td><span class="badge badge-primary">@Html.DisplayFor(modelItem => item.Designation)</span></td>
+                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+
+                                        <td><span class="badge badge-warning">@Html.DisplayFor(modelItem => item.Access)</span></td>
+                                        <td>
+                                            @Html.DropDownListFor(modelItem => item.Password, ViewBag.designation as List<SelectListItem>, "-- Change Role --", new { @class = "form-control-sm bg-gray roledrp", id = $"roledrp_{item.EmpID}" })
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-block bg-danger btn-sm btnrolechange" data-empid="@item.EmpID">Change Role</button>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->

@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "ReportIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ReportIndex</h2>
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="nav-icon fas fa-file"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">REPORTS MENU</span>
+        <span class="info-box-text">Good Luck!&nbsp;<i class="far fa-thumbs-up"></i></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-black elevation-2">
+            <div class="card-header bg-black">
+                <h3 class="card-title">Gernerate Reports</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body bg-gradient-dark">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label for="clientSelect" class="text-lightblue">Report Type</label>
+                                <div class="col-sm-6">
+                                    <!-- radio -->
+                                    <div class="form-group clearfix">
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="radioPrimary1" name="radioGroup" class="radio-option" checked>
+                                            <label for="radioPrimary1" class="mr-2">
+                                                Employee
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="radioPrimary2" name="radioGroup" class="radio-option">
+                                            <label for="radioPrimary2" class="mr-2">
+                                                Task
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>                   
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <select class="form-control bg-gray empdrp" id="drpselect">
+                                    <option value="">-- select --</option>
+                                    @foreach (var employee in ViewBag.employees)
+                                    {
+                                        <option value="@employee.Value">@employee.Text</option>
+                                    }
+                                </select>
+
+
+                            </div>
+                        </div>
+
+                       
+                    </div>
+
+                    <!-- input states -->
+                    <div class="form-group">
+                        <label class="text-lightblue" for="inputWarning">
+
+                            Date range
+                        </label>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control-lg border-0 bg-gray reservationtime">
+                            </div>
+                        </div> 
+                    </div>
+                    
+
+                    
+
+                   
+
+                    <div class="alert alert-default-warning bg-black" id="alertdiv" style="display:none;">
+                        <span class="text-danger" id="alertlabel">test</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span class="text-light">x</span>
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        <input type="submit" value="Download" class="btn btn-block btn-secondary bg-indigo btn-flat elevation-3" id="submitforrpt" />
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

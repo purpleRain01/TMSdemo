@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "AddProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="nav-icon fas fa-clipboard-check"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">PROJECT MASTER</span>
+        <span class="info-box-text">Good Luck!&nbsp;<i class="far fa-thumbs-up"></i></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-black elevation-2">
+            <div class="card-header bg-black">
+                <h3 class="card-title">Project Form</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body bg-gradient-dark">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label for="clientSelect" class="text-lightblue">Client Name</label>
+                                <select class="form-control bg-gray border-0" id="clientSelect" name="clientId">
+                                    <option value="" disabled selected>Select a Client</option>
+
+                                    @if (ViewBag.clients != null && ViewBag.clients.Count > 0)
+                                    {
+                                        foreach (var client in ViewBag.clients)
+                                        {
+                                            <option value="@client.Value">@client.Text</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">No Clients available</option>
+                                    }
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="text-lightblue">Project name</label>
+                                <input type="text" class="form-control bg-gray border-0" id="prjname" maxlength="49" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label class="text-lightblue">Abbreviation</label>
+                                <input type="text" class="form-control bg-gray border-0 abrcheck" placeholder="Project:IPHONE 17   Abbreviation:IP17" id="prjabr" maxlength="4" />
+                                <p>note : <i>abbreviation means shortnames</i></p>
+                            </div>
+                        </div>
+
+                       
+                    </div>
+
+
+                   
+
+
+                    <div class="alert alert-default-warning bg-black" id="alertdivprj" style="display:none;">
+                        <span class="text-danger" id="alertlabelprj">test</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span class="text-light">x</span>
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        <input type="submit" value="Add Project" class="btn btn-block btn-secondary bg-indigo btn-flat elevation-3" id="submitprj" />
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-black elevation-2">
+            <div class="card-header bg-black">
+                <h3 class="card-title">Module Form</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body bg-gradient-dark">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label for="prjselect" class="text-lightblue">Project Name</label>
+                                <select class="form-control bg-gray border-0" id="prjselect" name="clientId">
+                                    <option value="" disabled selected>Select a Project</option>
+                                    @if (ViewBag.projects != null && ViewBag.projects.Count > 0)
+                                    {
+                                        foreach (var project in ViewBag.projects)
+                                        {
+                                            <option value="@project.Value">@project.Text</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">No projects available</option>
+                                    }
+
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="text-lightblue">Module name</label>
+                                <input type="text" class="form-control bg-gray border-0" id="modname" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label class="text-lightblue">Abbreviation</label>
+                                <input type="text" class="form-control bg-gray border-0 abrcheck" placeholder="Module:Production   Abbreviation:PDN" id="modabr" maxlength="4"/>
+                                <p>note : <i>abbreviation means shortnames</i></p>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                    <div class="alert alert-default-warning bg-black" id="alertdivmod" style="display:none;">
+                        <span class="text-danger" id="alertlabelmod">test</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span class="text-light">x</span>
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        <input type="submit" value="Add module" class="btn btn-block btn-secondary bg-indigo btn-flat elevation-3" id="submitmod" />
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+

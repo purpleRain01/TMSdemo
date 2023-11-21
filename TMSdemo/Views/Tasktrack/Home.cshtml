@@ -1,0 +1,161 @@
+﻿@model IEnumerable<TMSdemo.Models.Task>
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="info-box mb-4 bg-black elevation-5">
+    <span class="info-box-icon"><i class="fas fa-edit"></i></span>
+
+    <div class="info-box-content">
+        <span class="info-box-number">TASKS HISTORY</span>
+        <span class="info-box-text">Heres the all activity...!&nbsp;<i class="far fa-thumb-tack"></i></span>
+    </div>
+</div>
+
+<!--pending tasks table-->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-black elevation-3">
+            <div class="card-header">
+                <h3 class="card-title"><strong>task history</strong></h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive bg-gradient-gray-dark p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead class="text-white-50">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.taskCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.projectCode)</th>
+                            <th>@Html.DisplayNameFor(model => model.moduleCode)</th>
+
+                            <th>@Html.DisplayNameFor(model => model.status)</th>
+                            <th>@Html.DisplayNameFor(model => model.reason)</th>
+                            <th>@Html.DisplayNameFor(model => model.sysDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.empname)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white-50">
+
+                        @foreach (var item in Model)
+                        {
+
+
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.taskCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.projectCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.moduleCode)</td>
+
+                            @if (item.status == "eod")
+                            {
+                                <td><span class="badge badge-warning bg-gradient-pink">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "hold")
+                            {
+                                <td><span class="badge badge-warning bg-orange">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "cwb")
+                            {
+                                if (TempData["bug"] != null)
+                                {
+                                    int bug = Convert.ToInt32(TempData["bug"]);
+                                    if (bug <= Convert.ToInt32(item.count))
+                                    {
+                                        string temp = "cwb" + @TempData["bug"].ToString();
+                                        <td><span class="badge badge-warning bg-maroon">@temp</span></td>
+                                        bug += 1;
+                                        TempData["bug"] = bug;
+                                    }
+                                    else
+                                    {
+                                        <td><span class="badge badge-warning bg-maroon">@Html.DisplayFor(modelItem => item.status)</span></td>
+                                    }
+                                }
+
+
+
+                            }
+                            else if (item.status == "reopen")
+                            {
+                                if (TempData["reopen"] != null)
+                                {
+                                    int bug1 = Convert.ToInt32(TempData["reopen"]);
+                                    if (bug1 <= Convert.ToInt32(item.count1))
+                                    {
+                                        string temp1 = "reopen" + @TempData["reopen"].ToString();
+                                        <td><span class="badge badge-danger">@temp1</span></td>
+                                        bug1 += 1;
+                                        TempData["reopen"] = bug1;
+                                    }
+                                    else
+                                    {
+                                        <td><span class="badge badge-danger">@Html.DisplayFor(modelItem => item.status)</span></td>
+                                    }
+                                }
+
+
+                            }
+                            else if (item.status == "pending")
+                            {
+                                <td><span class="badge badge-warning badge-warning ">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "closed")
+                            {
+                                <td><span class="badge badge-success">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "finished")
+                            {
+                                <td><span class="badge badge-warning bg-olive">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "running")
+                            {
+                                <td><span class="badge badge-warning bg-lightblue">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "completed")
+                            {
+                                <td><span class="badge badge-warning bg-teal">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "break")
+                            {
+                                <td><span class="badge badge-warning bg-gradient-lime">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "incomplete")
+                            {
+                                <td><span class="badge badge-warning bg-danger">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "incomplete")
+                            {
+                                <td><span class="badge badge-warning bg-orange">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            else if (item.status == "new")
+                            {
+                                <td><span class="badge badge-primary">@Html.DisplayFor(modelItem => item.status)</span></td>
+                            }
+                            <td>@Html.DisplayFor(modelItem => item.reason)</td>
+
+                            <td>@Html.DisplayFor(modelItem => item.sysDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.empname)</td>
+
+                        </tr>
+
+
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<!-- /.row -->
